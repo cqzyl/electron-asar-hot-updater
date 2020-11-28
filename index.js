@@ -125,9 +125,11 @@ var Updater = {
       this.log(
         'The "version" property not specified inside the application package.json'
       )
-      this.end(0)
+      if (!this.setup.body) {
+        this.end(0)
 
-      return false
+        return false
+      }
     }
 
     request(
