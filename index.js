@@ -112,8 +112,21 @@ var Updater = {
     }
 
     // Get the current version
+    var packageInfo = {}
     try{
-      var packageInfo = JSON.parse(fs.readFileSync(AppPath + 'package.json'))
+      packageInfo = {
+        ...packageInfo,
+        ...JSON.parse(fs.readFileSync(AppPath + 'package.json'))
+      };
+    } catch(e) {
+      console.error(e)
+    }
+
+    try{
+      packageInfo = {
+        ...packageInfo,
+        ...this.setup.body,
+      }
     } catch(e) {
       console.error(e)
     }
@@ -135,7 +148,7 @@ var Updater = {
         url: this.setup.api,
         method: 'post',
         json: true,
-        body: this.setup.body || {
+        body: /* this.setup.body ||  */{
           name: packageInfo.name,
           current: packageInfo.version
         },
